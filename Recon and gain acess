@@ -1,0 +1,5 @@
+Link: https://tryhackme.com/room/marketplace
+
+This pentest is mainly based in web app security, so we first open website, I run nmap in background but its only 22 and 80 open. I also run 
+I registered to this website and login, then I tried to find some input field that I could test XSS, and there we go, basic payload <scipt>alert(1)</script> prove that XSS exist.
+What we can do with it? There is option send a bug to admin, so we can send him script that will send his cookies to us
