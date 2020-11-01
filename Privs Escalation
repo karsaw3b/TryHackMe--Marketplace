@@ -16,3 +16,4 @@ Running the script as michael
 sudo -u michael /opt/backups/backup.sh 
 
 I opened a netcat session and I then i became michael user, michael is in docker group, and I know how to easy gain a root by this
+We can also privesc like this by opening /etc/crontab, and manipulate script over there if it is some running by root
